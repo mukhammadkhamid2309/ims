@@ -1,77 +1,76 @@
-<section class="content-header">
-  <h1>
-    Daftar Alat
-    <small>Control panel</small>
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Scanner</title>
+    <style>
+        #video {
+            width: 100%;
+            height: auto;
+            border: 1px solid #000;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
 
-</section>
-<!-- Main content -->
-<section class="content">
+<h2>Barcode Scanner</h2>
+<video id="video" autoplay></video>
+<p id="result">Scan a barcode</p>
 
-  <!-- Default box -->
-  <div class="box box-solid">
+<script src="https://unpkg.com/jsQR/jsQR.js"></script>
+<script>
+    // Setup untuk memulai stream kamera dan pemindaian barcode
+    const video = document.getElementById("video");
+    const resultDisplay = document.getElementById("result");
 
-    <div class="box-body">
+    // Mendapatkan akses ke kamera perangkat
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then((stream) => {
+            // Mengarahkan stream kamera ke elemen video
+            video.srcObject = stream;
 
-      <table id="example2" class="table table-bordered table-hover" style="font-size: 14px;">
-        <thead>
-          <tr >
-            <th  width="90%">Nama Alat</th>
-            <th colspan="2" width="10%">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-       
-</tbody>
+            // Menggunakan `requestAnimationFrame` untuk terus memindai
+            video.addEventListener("play", function() {
+                scanBarcode();
+            });
+        })
+        .catch((err) => {
+            console.error("Kamera tidak tersedia:", err);
+            resultDisplay.textContent = "Tidak dapat mengakses kamera.";
+        });
 
-</table>
+    // Fungsi untuk melakukan pemindaian barcode
+    function scanBarcode() {
+        if (video.paused || video.ended) return;
 
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
 
-</div>
+        // Mengatur ukuran canvas sesuai dengan ukuran video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
+        // Menggambar frame video ke canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+        // Mencoba untuk mendeteksi barcode menggunakan jsQR
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, canvas.width, canvas.height);
 
-
-</div>
-<!-- /.box-body -->
-
-</div>
-<!-- /.box -->
-
-</section>
-<!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-
-<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
-
-    <script type="text/javascript">
-        // Get Data
-
-    var firebaseConfig = {
-     apiKey: "AIzaSyDDTRU6rb-g14apb2UpL3g83HK4FRenYTE",
-     authDomain: "smart-sounder-control.firebaseapp.com",
-     databaseURL: "https://smart-sounder-control-default-rtdb.firebaseio.com",
-     projectId: "smart-sounder-control",
-     storageBucket: "smart-sounder-control.appspot.com",
-     messagingSenderId: "25217180899",
-     appId: "1:25217180899:web:072dd2b8a3c6d4b56dd1d6",
-     measurementId: "G-ZSGMVKNCY3"
-   };
-   firebase.initializeApp(firebaseConfig);
-
-   var database = firebase.database();
-
-   var lastIndex = 0;
-
-    // Get Data
-    firebase.database().ref('/').on('value', function (snapshot) {
-    var values = snapshot.val();
-    alert(values.indikasi);
-   
-
-
-  });
+        if (code) {
+            // Jika barcode terdeteksi, tampilkan hasil
+            resultDisplay.textContent = "Barcode Detected: " + code.data;
+        } else {
+            // Jika tidak ada barcode yang terdeteksi, lanjutkan memindai
+            requestAnimationFrame(scanBarcode);
+        }
+    }
 </script>
+
+</body>
+</html>
