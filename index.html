@@ -4,40 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan Barcode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #video {
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-   <div id="scanner-container"></div>
-<p>Hasil: <span id="result"></span></p>
-    
+    <video id="video" autoplay playsinline></video>
+    <script>
+        // Meminta akses kamera
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then((stream) => {
+                // Mendapatkan elemen video
+                const videoElement = document.getElementById("video");
+
+                // Menampilkan stream ke elemen video
+                videoElement.srcObject = stream;
+                videoElement.play();
+            })
+            .catch((error) => {
+                console.error("Gagal membuka kamera:", error);
+
+                // Menampilkan pesan error ke pengguna
+                alert("Tidak dapat mengakses kamera. Pastikan Anda memberikan izin!");
+            });
+    </script>
 </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-
-<script>
-    Quagga.init({
-        inputStream: {
-            type: "LiveStream",
-            target: document.querySelector('#scanner-container'), // Elemen target
-            constraints: {
-                facingMode: "environment" // Kamera belakang
-            }
-        },
-        decoder: {
-            readers: ["code_128_reader"] // Format barcode
-        }
-    }, function(err) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log("Initialization finished. Ready to start");
-        Quagga.start();
-    });
-
-    Quagga.onDetected(function(data) {
-        document.getElementById("result").textContent = data.codeResult.code;
-        console.log("Kode Terbaca: ", data.codeResult.code);
-        Quagga.stop(); // Hentikan setelah berhasil membaca
-    });
-</script>
-
 </html>
