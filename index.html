@@ -70,24 +70,7 @@
     firebase.database().ref('/').on('value', function (snapshot) {
     var values = snapshot.val();
     alert(values.indikasi);
-    if (values.indikasi == 1) {
-
-        $('tbody').html('<tr>\
-                <td>MK-1</td>\
-                <td><div style="width: 100%; background-color: #00c0ef; color: white; text-align: center; padding: 3px 5px; border-radius: 10px;">Sedang Berlansung</div></td>\
-                <td><a class="fa fa-eye" href="<?php echo site_url('SoundingBoat/detail'); ?>" style="color: blue;  font-size: 18px; "></a>\
-            </tr>');
-    }
-
-
-    if (values.indikasi == 0) {
-
-        $('tbody').html('<tr>\
-                <td>MK-1</td>\
-                <td><div style="width: 100%; background-color: green; color: white; text-align: center; padding: 3px 5px; border-radius: 10px;">Online</div></td>\
-                <td><a class="fa fa-eye" href="<?php echo site_url('SoundingBoat/detail'); ?>" style="color: blue;  font-size: 18px; "></a>\
-            </tr>');
-    }
+   
 
 
   });
