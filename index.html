@@ -6,39 +6,38 @@
     <title>Scan Barcode</title>
 </head>
 <body>
-    <h1>Scan Barcode</h1>
-    <div id="reader" style="width: 500px;"></div>
-    <p>Hasil: <span id="result"></span></p>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <script src="scan.js"></script>
+   <div id="scanner-container"></div>
+<p>Hasil: <span id="result"></span></p>
+    
 </body>
-</html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
 <script>
-    // Menggunakan library Html5-Qrcode
-const html5QrCode = new Html5Qrcode("reader");
+    Quagga.init({
+        inputStream: {
+            type: "LiveStream",
+            target: document.querySelector('#scanner-container'), // Elemen target
+            constraints: {
+                facingMode: "environment" // Kamera belakang
+            }
+        },
+        decoder: {
+            readers: ["code_128_reader"] // Format barcode
+        }
+    }, function(err) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log("Initialization finished. Ready to start");
+        Quagga.start();
+    });
 
-function onScanSuccess(decodedText, decodedResult) {
-    // Menampilkan hasil scan
-    document.getElementById("result").textContent = decodedText;
-    console.log(`Kode berhasil di-scan: ${decodedText}`, decodedResult);
-    // Hentikan scanning setelah berhasil
-    html5QrCode.stop().then(() => console.log("Scanning dihentikan"));
-}
-
-function onScanFailure(error) {
-    // Error handling jika scan gagal
-    console.warn(`Error saat scanning: ${error}`);
-}
-
-// Konfigurasi kamera dan mulai scanning
-html5QrCode.start(
-    { facingMode: "environment" }, // Kamera belakang
-    {
-        fps: 10, // Frame per detik
-        qrbox: { width: 250, height: 250 } // Area scan
-    },
-    onScanSuccess,
-    onScanFailure
-).catch(err => console.error(`Gagal memulai kamera: ${err}`));
-
+    Quagga.onDetected(function(data) {
+        document.getElementById("result").textContent = data.codeResult.code;
+        console.log("Kode Terbaca: ", data.codeResult.code);
+        Quagga.stop(); // Hentikan setelah berhasil membaca
+    });
 </script>
+
+</html>
