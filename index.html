@@ -3,74 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Scanner</title>
-    <style>
-        #video {
-            width: 100%;
-            height: auto;
-            border: 1px solid #000;
-        }
-        #result {
-            font-size: 20px;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Scan Barcode</title>
 </head>
 <body>
-
-<h2>Barcode Scanner</h2>
-<video id="video" autoplay></video>
-<p id="result">Scan a barcode</p>
-
-<script src="https://unpkg.com/jsQR/jsQR.js"></script>
-<script>
-    // Setup untuk memulai stream kamera dan pemindaian barcode
-    const video = document.getElementById("video");
-    const resultDisplay = document.getElementById("result");
-
-    // Mendapatkan akses ke kamera perangkat
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then((stream) => {
-            // Mengarahkan stream kamera ke elemen video
-            video.srcObject = stream;
-
-            // Menggunakan `requestAnimationFrame` untuk terus memindai
-            video.addEventListener("play", function() {
-                scanBarcode();
-            });
-        })
-        .catch((err) => {
-            console.error("Kamera tidak tersedia:", err);
-            resultDisplay.textContent = "Tidak dapat mengakses kamera.";
-        });
-
-    // Fungsi untuk melakukan pemindaian barcode
-    function scanBarcode() {
-        if (video.paused || video.ended) return;
-
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-
-        // Mengatur ukuran canvas sesuai dengan ukuran video
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Menggambar frame video ke canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Mencoba untuk mendeteksi barcode menggunakan jsQR
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, canvas.width, canvas.height);
-
-        if (code) {
-            // Jika barcode terdeteksi, tampilkan hasil
-            resultDisplay.textContent = "Barcode Detected: " + code.data;
-        } else {
-            // Jika tidak ada barcode yang terdeteksi, lanjutkan memindai
-            requestAnimationFrame(scanBarcode);
-        }
-    }
-</script>
-
+    <h1>Scan Barcode</h1>
+    <div id="reader" style="width: 500px;"></div>
+    <p>Hasil: <span id="result"></span></p>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <script src="scan.js"></script>
 </body>
 </html>
