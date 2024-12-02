@@ -13,3 +13,32 @@
     <script src="scan.js"></script>
 </body>
 </html>
+<script>
+    // Menggunakan library Html5-Qrcode
+const html5QrCode = new Html5Qrcode("reader");
+
+function onScanSuccess(decodedText, decodedResult) {
+    // Menampilkan hasil scan
+    document.getElementById("result").textContent = decodedText;
+    console.log(`Kode berhasil di-scan: ${decodedText}`, decodedResult);
+    // Hentikan scanning setelah berhasil
+    html5QrCode.stop().then(() => console.log("Scanning dihentikan"));
+}
+
+function onScanFailure(error) {
+    // Error handling jika scan gagal
+    console.warn(`Error saat scanning: ${error}`);
+}
+
+// Konfigurasi kamera dan mulai scanning
+html5QrCode.start(
+    { facingMode: "environment" }, // Kamera belakang
+    {
+        fps: 10, // Frame per detik
+        qrbox: { width: 250, height: 250 } // Area scan
+    },
+    onScanSuccess,
+    onScanFailure
+).catch(err => console.error(`Gagal memulai kamera: ${err}`));
+
+</script>
