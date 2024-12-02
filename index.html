@@ -69,7 +69,7 @@
     // Get Data
     firebase.database().ref('/').on('value', function (snapshot) {
     var values = snapshot.val();
-
+    alert(values.indikasi);
     if (values.indikasi == 1) {
 
         $('tbody').html('<tr>\
