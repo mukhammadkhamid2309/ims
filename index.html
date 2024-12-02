@@ -3,46 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan Barcode</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-
-        #video {
-            width: 100%;
-            max-width: 400px;
-            border: 2px solid #000;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    <title>Scan Kamera Otomatis</title>
 </head>
 <body>
-    <video id="video" autoplay playsinline></video>
+    <h1>Scan QR Code / Barcode</h1>
+    <video id="camera" autoplay playsinline></video>
+    <canvas id="canvas" hidden></canvas>
+    <p id="result">Hasil: Tidak ada data</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
     <script>
-        // Meminta akses kamera
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-            .then((stream) => {
-                // Mendapatkan elemen video
-                const videoElement = document.getElementById("video");
+        const video = document.getElementById('camera');
+        const canvas = document.getElementById('canvas');
+        const result = document.getElementById('result');
+        const ctx = canvas.getContext('2d');
 
-                // Menampilkan stream ke elemen video
-                videoElement.srcObject = stream;
-                videoElement.play();
+        // Akses kamera
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                scanFrame();
             })
-            .catch((error) => {
-                console.error("Gagal membuka kamera:", error);
-
-                // Menampilkan pesan error ke pengguna
-                alert("Tidak dapat mengakses kamera. Pastikan Anda memberikan izin!");
+            .catch(err => {
+                console.error("Error akses kamera:", err);
+                result.textContent = "Gagal mengakses kamera.";
             });
+
+        // Fungsi untuk memindai frame
+        function scanFrame() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            // Deteksi kode dengan jsQR
+            const code = jsQR(imageData.data, canvas.width, canvas.height, {
+                inversionAttempts: "dontInvert"
+            });
+
+            if (code) {
+                result.textContent = `Hasil: ${code.data}`;
+                console.log("QR Code ditemukan:", code.data);
+            } else {
+                requestAnimationFrame(scanFrame); // Lanjutkan scanning
+            }
+        }
     </script>
 </body>
 </html>
+  
