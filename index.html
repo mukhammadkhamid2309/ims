@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Scanner</title>
+    <title>Barcode Scanner1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,15 +21,17 @@
             font-weight: bold;
         }
     </style>
+    <!-- Memuat pustaka html5-qrcode -->
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 </head>
 <body>
     <h1>Barcode Scanner</h1>
     <div id="reader"></div>
     <div id="result">Scan Result: <span id="output">None</span></div>
-
+    <script src="script.js"></script>
 </body>
 </html>
+
 <script>
     // Mendapatkan elemen untuk menampilkan hasil
 const resultElement = document.getElementById("output");
