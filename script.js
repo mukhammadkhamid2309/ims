@@ -3,6 +3,7 @@
   apiKey: "AIzaSyD6g-wvSHXMXN12aMYeb-hBAnfAFmg0awQ",
   authDomain: "imslabel.firebaseapp.com",
   projectId: "imslabel",
+     databaseURL: "https://imslabel-default-rtdb.firebaseio.com",
   storageBucket: "imslabel.firebasestorage.app",
   messagingSenderId: "247296225932",
   appId: "1:247296225932:web:6184473a83d057a64641a9",
