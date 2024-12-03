@@ -21,14 +21,7 @@ function onScanSuccess(decodedText, decodedResult) {
     const resultElement = document.getElementById("result");
     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
     
-    firebase.database().ref('0/').on('value', function (snapshot) {
-    var values = snapshot.val();
 
-     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
-     resultElement.innerHTML = `<strong>${values.material}</strong>`;
-
-
-  });
 
     
     console.log(`Decoded Text: ${decodedText}`, decodedResult);
