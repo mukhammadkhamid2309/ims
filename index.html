@@ -3,66 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Scanner1</title>
+    <title>Barcode Scanner</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
             padding: 20px;
         }
         #reader {
             width: 100%;
             max-width: 500px;
-            margin: auto;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
         }
         #result {
             margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 1.2em;
+            color: green;
         }
     </style>
-    <!-- Memuat pustaka html5-qrcode -->
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <!-- Include the Html5Qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode/html5-qrcode.min.js"></script>
 </head>
 <body>
     <h1>Barcode Scanner</h1>
+    <p>Point your camera at a barcode to scan it.</p>
     <div id="reader"></div>
-    <div id="result">Scan Result: <span id="output">None</span></div>
+    <div id="result">Result will be displayed here.</div>
     <script src="script.js"></script>
 </body>
 </html>
-
-<script>
-    // Mendapatkan elemen untuk menampilkan hasil
-const resultElement = document.getElementById("output");
-
-// Inisialisasi scanner
-const html5QrCode = new Html5Qrcode("reader");
-
-// Fungsi untuk menangani hasil scan
-function onScanSuccess(decodedText, decodedResult) {
-    // Menampilkan hasil scan
-    resultElement.textContent = decodedText;
-
-    // Menghentikan scanner setelah scan berhasil
-    html5QrCode.stop().catch(err => console.error("Gagal menghentikan scanner:", err));
-}
-
-// Fungsi untuk menangani kesalahan
-function onScanFailure(error) {
-    // Anda dapat menampilkan log error di sini jika diperlukan
-    console.warn(`Error scanning: ${error}`);
-}
-
-// Memulai scanner
-html5QrCode.start(
-    { facingMode: "environment" }, // Kamera belakang
-    {
-        fps: 10,                    // Frame per detik
-        qrbox: { width: 250, height: 250 } // Area scan
-    },
-    onScanSuccess,
-    onScanFailure
-).catch(err => console.error("Gagal memulai scanner:", err));
-
-</script>
