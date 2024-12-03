@@ -14,19 +14,14 @@
 
 // Initialize the HTML5 QR Code Scanner
 const html5QrCode = new Html5Qrcode("reader");
-var decodedText = 0;
-    const resultElement = document.getElementById("result");
-  firebase.database().ref(decodedText+'/').on('value', function (snapshot) {
-       var values = snapshot.val();
-        resultElement.innerHTML = `Gudang : <strong>${values.material}</strong>`; 
-      });
+
 // Function to handle success scanning
 function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
     const resultElement = document.getElementById("result");
      firebase.database().ref(decodedText+'/').on('value', function (snapshot) {
        var values = snapshot.val();
-        resultElement.innerHTML = `Gudang : <strong>${values.material}</strong>`; 
+        resultElement.innerHTML = `Material : <strong>${values.material}</strong>`; 
       });
 
 
