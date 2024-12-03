@@ -1,3 +1,22 @@
+// Get Data
+    var firebaseConfig = {
+     apiKey: "AIzaSyDDTRU6rb-g14apb2UpL3g83HK4FRenYTE",
+     authDomain: "smart-sounder-control.firebaseapp.com",
+     databaseURL: "https://smart-sounder-control-default-rtdb.firebaseio.com",
+     projectId: "smart-sounder-control",
+     storageBucket: "smart-sounder-control.appspot.com",
+     messagingSenderId: "25217180899",
+     appId: "1:25217180899:web:072dd2b8a3c6d4b56dd1d6",
+     measurementId: "G-ZSGMVKNCY3"
+   };
+   firebase.initializeApp(firebaseConfig);
+   var database = firebase.database();
+
+    // Get Data
+   
+
+
+
 // Initialize the HTML5 QR Code Scanner
 const html5QrCode = new Html5Qrcode("reader");
 
@@ -5,7 +24,19 @@ const html5QrCode = new Html5Qrcode("reader");
 function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
     const resultElement = document.getElementById("result");
-    resultElement.innerHTML = `Scanned Result: <strong>${decodedText}</strong>`;
+    resultElement.innerHTML = `<strong>${decodedText}</strong>`;
+
+     firebase.database().ref('/').on('value', function (snapshot) {
+    var values = snapshot.val();
+
+   
+         
+    resultElement.innerHTML = `<strong>${decodedText}${values.indikasi} </strong>`;
+
+
+  });
+
+    
     console.log(`Decoded Text: ${decodedText}`, decodedResult);
 
     // Stop the scanner after successful scan
