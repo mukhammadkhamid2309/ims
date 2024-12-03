@@ -12,11 +12,6 @@
    firebase.initializeApp(firebaseConfig);
    var database = firebase.database();
 
-    // Get Data
-   
-
-
-
 // Initialize the HTML5 QR Code Scanner
 const html5QrCode = new Html5Qrcode("reader");
 
@@ -25,13 +20,12 @@ function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
     const resultElement = document.getElementById("result");
     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
-
-     firebase.database().ref('/').on('value', function (snapshot) {
+    
+    firebase.database().ref('/').on('value', function (snapshot) {
     var values = snapshot.val();
 
-   
-         
-    resultElement.innerHTML = `<strong>${decodedText}${values.indikasi} </strong>`;
+     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
+     resultElement.innerHTML = `<strong>${values.indikasi}</strong>`;
 
 
   });
