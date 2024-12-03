@@ -20,7 +20,10 @@ function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
     const resultElement = document.getElementById("result");
     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
-    
+     firebase.database().ref('0/').on('value', function (snapshot) {
+       var values = snapshot.val();
+          alert(values.material);
+      });
 
 
     
