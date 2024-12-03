@@ -1,14 +1,13 @@
 // Get Data
-    var firebaseConfig = {
-     apiKey: "AIzaSyDDTRU6rb-g14apb2UpL3g83HK4FRenYTE",
-     authDomain: "smart-sounder-control.firebaseapp.com",
-     databaseURL: "https://smart-sounder-control-default-rtdb.firebaseio.com",
-     projectId: "smart-sounder-control",
-     storageBucket: "smart-sounder-control.appspot.com",
-     messagingSenderId: "25217180899",
-     appId: "1:25217180899:web:072dd2b8a3c6d4b56dd1d6",
-     measurementId: "G-ZSGMVKNCY3"
-   };
+   const firebaseConfig = {
+  apiKey: "AIzaSyD6g-wvSHXMXN12aMYeb-hBAnfAFmg0awQ",
+  authDomain: "imslabel.firebaseapp.com",
+  projectId: "imslabel",
+  storageBucket: "imslabel.firebasestorage.app",
+  messagingSenderId: "247296225932",
+  appId: "1:247296225932:web:6184473a83d057a64641a9",
+  measurementId: "G-9J7RRMMSLW"
+};
    firebase.initializeApp(firebaseConfig);
    var database = firebase.database();
 
@@ -21,11 +20,11 @@ function onScanSuccess(decodedText, decodedResult) {
     const resultElement = document.getElementById("result");
     resultElement.innerHTML = `<strong>${decodedText}</strong>`;
     
-    firebase.database().ref('/').on('value', function (snapshot) {
+    firebase.database().ref('0/').on('value', function (snapshot) {
     var values = snapshot.val();
 
      resultElement.innerHTML = `<strong>${decodedText}</strong>`;
-     resultElement.innerHTML = `<strong>${values.indikasi}</strong>`;
+     resultElement.innerHTML = `<strong>${values.material}</strong>`;
 
 
   });
