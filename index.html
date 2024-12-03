@@ -3,65 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan Website</title>
+    <title>Barcode Scanner</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
-        video {
+        #reader {
             width: 100%;
             max-width: 500px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            margin: auto;
         }
-        canvas {
-            display: none;
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 </head>
 <body>
-    <h1>Website Scanner</h1>
-    <video id="video" autoplay></video>
-    <canvas id="canvas"></canvas>
-    <button id="capture">Capture</button>
-    <h2>Result</h2>
-    <img id="result" alt="Scanned Image" style="max-width: 500px;">
-    <script src="script.js"></script>
+    <h1>Barcode Scanner</h1>
+    <div id="reader"></div>
+    <div id="result">Scan Result: <span id="output">None</span></div>
+
 </body>
 </html>
-
 <script>
-    // Mendapatkan elemen DOM
-const video = document.getElementById("video");
-const canvas = document.getElementById("canvas");
-const captureButton = document.getElementById("capture");
-const result = document.getElementById("result");
+    // Mendapatkan elemen untuk menampilkan hasil
+const resultElement = document.getElementById("output");
 
-// Mengaktifkan kamera menggunakan WebRTC
-async function startCamera() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-    } catch (error) {
-        console.error("Kamera tidak dapat diakses:", error);
-    }
+// Inisialisasi scanner
+const html5QrCode = new Html5Qrcode("reader");
+
+// Fungsi untuk menangani hasil scan
+function onScanSuccess(decodedText, decodedResult) {
+    // Menampilkan hasil scan
+    resultElement.textContent = decodedText;
+
+    // Menghentikan scanner setelah scan berhasil
+    html5QrCode.stop().catch(err => console.error("Gagal menghentikan scanner:", err));
 }
 
-// Menangkap gambar dari video
-captureButton.addEventListener("click", () => {
-    const context = canvas.getContext("2d");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+// Fungsi untuk menangani kesalahan
+function onScanFailure(error) {
+    // Anda dapat menampilkan log error di sini jika diperlukan
+    console.warn(`Error scanning: ${error}`);
+}
 
-    // Menampilkan hasil tangkapan
-    result.src = canvas.toDataURL("image/png");
-});
-
-// Memulai kamera saat halaman dimuat
-startCamera();
+// Memulai scanner
+html5QrCode.start(
+    { facingMode: "environment" }, // Kamera belakang
+    {
+        fps: 10,                    // Frame per detik
+        qrbox: { width: 250, height: 250 } // Area scan
+    },
+    onScanSuccess,
+    onScanFailure
+).catch(err => console.error("Gagal memulai scanner:", err));
 
 </script>
