@@ -19,9 +19,9 @@ const html5QrCode = new Html5Qrcode("reader");
 function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
     const resultElement = document.getElementById("result");
-     firebase.database().ref('0/').on('value', function (snapshot) {
+     firebase.database().ref('${decodedText}/').on('value', function (snapshot) {
        var values = snapshot.val();
-        resultElement.innerHTML = `Material : <strong>${values.material}</strong>`; 
+        resultElement.innerHTML = `Gudang : <strong>${values.material}</strong>`; 
       });
 
 
