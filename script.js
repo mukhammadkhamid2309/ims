@@ -18,10 +18,10 @@ const html5QrCode = new Html5Qrcode("reader");
 const resultElement = document.getElementById("result");
      firebase.database().ref('0/').on('value', function (snapshot) {
        var values = snapshot.val();
-        var text = '<table>'
+        var text = '<table><tbody>'
         text = text + '<tr><td> Material </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
         text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
-        text = text + '</table>';
+        text = text + '</tbody></table>';
         
         resultElement.innerHTML = text; 
       });
