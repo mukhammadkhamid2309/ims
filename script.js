@@ -33,8 +33,8 @@ function onScanSuccess(decodedText, decodedResult) {
         text = text + '<tr><td> Material Number </td> <td> : </td> <td>'+ values.material_number+ '</td></tr>';
         }if(values.gudang){
         text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.gudang+ '</td></tr>';
-        }if(values.quantum){
-        text = text + '<tr><td> Quantity </td> <td> : </td> <td>'+ values.quantum+ ' '+ values.satuan+ '</td></tr>';
+        }if(values.quantity){
+        text = text + '<tr><td> Quantity </td> <td> : </td> <td>'+ values.quantity+ ' '+ values.satuan+ '</td></tr>';
         }if(values.catatan){
         text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
         }
