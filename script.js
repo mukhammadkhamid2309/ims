@@ -18,7 +18,7 @@ const html5QrCode = new Html5Qrcode("reader");
 const resultElement = document.getElementById("result");
      firebase.database().ref('0/').on('value', function (snapshot) {
        var values = snapshot.val();
-        var text = '<table><tbody>'
+        var text = '<table class = "info"><tbody>'
         text = text + '<tr><td> Material </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
         text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
         text = text + '</tbody></table>';
