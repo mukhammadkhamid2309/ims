@@ -15,6 +15,14 @@
 // Initialize the HTML5 QR Code Scanner
 const html5QrCode = new Html5Qrcode("reader");
 
+const resultElement = document.getElementById("result");
+     firebase.database().ref(decodedText+'/').on('value', function (snapshot) {
+       var values = snapshot.val();
+        var text = '<div> Material : <strong>${values.material}</strong> <div>';
+        
+        resultElement.innerHTML = text; 
+      });
+
 // Function to handle success scanning
 function onScanSuccess(decodedText, decodedResult) {
     // Show the scanned result
