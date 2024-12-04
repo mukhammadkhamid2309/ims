@@ -17,7 +17,7 @@ const html5QrCode = new Html5Qrcode("reader");
  const resultElement = document.getElementById("result");
      firebase.database().ref('qr/-ODFh6AmQWOjMf_ew1hl/').on('value', function (snapshot) {
        var values = snapshot.val();
-          var text = '<table class = "info"><tbody>'
+          var text = '<table style = "text-align: left;"><tbody>'
         if(values.tanggal){
            text = text + '<tr><td> Tanggal </td> <td> : </td> <td>'+ values.tanggal+ '</td></tr>';
         }if(values.vessel){
