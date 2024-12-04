@@ -19,8 +19,21 @@ const resultElement = document.getElementById("result");
      firebase.database().ref('0/').on('value', function (snapshot) {
        var values = snapshot.val();
         var text = '<table class = "info"><tbody>'
+        if(values.tanggal){
+           text = text + '<tr><td> Tanggal </td> <td> : </td> <td>'+ values.tanggal+ '</td></tr>';
+        }if(values.kapal){
+        text = text + '<tr><td> Kapal </td> <td> : </td> <td>'+ values.kapal+ '</td></tr>';
+        }if(values.suplier){
+        text = text + '<tr><td> Suplier </td> <td> : </td> <td>'+ values.suplier+ '</td></tr>';
+        }if(values.material){
         text = text + '<tr><td> Material </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
-        text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.material+ '</td></tr>';
+        }if(values.gudang){
+        text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.gudang+ '</td></tr>';
+        }if(values.quantum){
+        text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.quantum+ '</td></tr>';
+        }if(values.kondisi){
+        text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.kondisi+ '</td></tr>';
+        }
         text = text + '</tbody></table>';
         
         resultElement.innerHTML = text; 
