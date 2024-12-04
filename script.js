@@ -36,7 +36,7 @@ function onScanSuccess(decodedText, decodedResult) {
         }if(values.quantity){
         text = text + '<tr><td> Quantity </td> <td> : </td> <td>'+ values.quantity+ ' '+ values.satuan+ '</td></tr>';
         }if(values.catatan){
-        text = text + '<tr><td> Gudang </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
+        text = text + '<tr><td> Catatan </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
         }
         text = text + '</tbody></table>';
         
