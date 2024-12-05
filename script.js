@@ -20,7 +20,7 @@ function onScanSuccess(decodedText, decodedResult) {
     const resultElement = document.getElementById("result");
      firebase.database().ref('qr/'+decodedText+'/').on('value', function (snapshot) {
        var values = snapshot.val();
-          var text = '<table style = "text-align: left; font-size: 14px;"><tbody>'
+          var text = '<div><table style = "text-align: left; font-size: 14px;"><tbody>'
         if(values.tanggal){
            text = text + '<tr><td> Tanggal </td> <td> : </td> <td>'+ values.tanggal+ '</td></tr>';
         }if(values.vessel){
@@ -38,7 +38,7 @@ function onScanSuccess(decodedText, decodedResult) {
         }if(values.catatan){
         text = text + '<tr><td> Catatan </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
         }
-        text = text + '</tbody></table>';
+        text = text + '</tbody></table></div>';
         text = text + '<div><button onclick = "scanner()"> Back To SCAN</button></div>';
         resultElement.innerHTML = text; 
       });
