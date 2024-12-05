@@ -39,7 +39,7 @@ function onScanSuccess(decodedText, decodedResult) {
         text = text + '<tr><td> Catatan </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
         }
         text = text + '</tbody></table></div>';
-        text = text + '<div><button onclick = "scanner()"> Back To SCAN</button></div>';
+        text = text + ' <div><button onclick = "scanner()" style="padding: 5px; background-color: green; border: 1px solid black; border-radius: 5px; color: white;"> Back To SCAN</button></div>';
         resultElement.innerHTML = text; 
       });
 
