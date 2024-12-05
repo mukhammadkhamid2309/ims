@@ -39,7 +39,7 @@ function onScanSuccess(decodedText, decodedResult) {
         text = text + '<tr><td> Catatan </td> <td> : </td> <td>'+ values.catatan+ '</td></tr>';
         }
         text = text + '</tbody></table>';
-        
+        text = text + '<div><button onclick = "scanner()"> Back To SCAN</button>';
         resultElement.innerHTML = text; 
       });
 
@@ -61,7 +61,15 @@ function onScanFailure(error) {
     console.warn(`Scan failed: ${error}`);
 }
 
-// Start the scanner
+
+    $(document).ready(function() {
+
+    scanner();
+    });
+function scanner(){
+
+    const resultElement = document.getElementById("result");
+   resultElement.innerHTML = 'Result will be displayed here.'; 
 html5QrCode.start(
     { facingMode: "environment" }, // Use rear camera
     {
@@ -73,4 +81,4 @@ html5QrCode.start(
 ).catch(err => {
     console.error("Failed to start scanner:", err);
 });
-
+}
